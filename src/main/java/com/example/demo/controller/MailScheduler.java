@@ -30,9 +30,6 @@ public class MailScheduler {
     private MailService mailService;
 
     @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
     private TemplateEngine templateEngine;
 
     @Scheduled(cron = "0 0/15 * * * ?")   //每15分钟触发一次
@@ -65,7 +62,7 @@ public class MailScheduler {
             context.setVariable("tasknum", bugNotifyBean.getTasknum());
             context.setVariable("solution", bugNotifyBean.getSolution());
 
-            String img = "c:\\logo\\"+bugNotifyBean.getImg();
+            String img = "/opt/88bugs/logo/"+bugNotifyBean.getImg();
             String emailContent = templateEngine.process("emailTemplate", context);
             mailService.sendHtmlMail(developerEmail, testerEmail,"您好，有一个Bug要关注，谢谢!!", emailContent,img);
 
